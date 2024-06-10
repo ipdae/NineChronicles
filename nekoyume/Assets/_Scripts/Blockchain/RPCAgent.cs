@@ -15,6 +15,7 @@ using Grpc.Core;
 using Ionic.Zlib;
 using Lib9c;
 using Lib9c.Renderers;
+using Libplanet.Action;
 using Libplanet.Action.State;
 using Libplanet.Common;
 using Libplanet.Crypto;
@@ -79,7 +80,8 @@ namespace Nekoyume.Blockchain
 
         public PrivateKey PrivateKey { get; private set; }
 
-        public Address Address => PrivateKey.PublicKey.Address;
+        // public Address Address => PrivateKey.PublicKey.Address;
+        public Address Address => new Address("0x883dC19cec1ADd1C7fbab1290C8384bb9cb90d83");
 
         public bool Connected { get; private set; }
 
