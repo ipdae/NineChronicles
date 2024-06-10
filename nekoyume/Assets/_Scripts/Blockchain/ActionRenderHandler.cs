@@ -3617,26 +3617,24 @@ namespace Nekoyume.Blockchain
             }
         }
 
-        public void Test()
+        public void Test(string action)
         {
             var _codec = new Codec();
-            var action =
-                "6475373a747970655f69647531343a626174746c655f6172656e61313575363a76616c7565736475333a63686975313a3975323a63736c6575333a65616132303a259d3179bed313db24105c796cc121db49e9ee4e75323a65736c31363a44f2db158af21b4da3db33b358e549c631363a66644b7f60387840a14784494b8c6bda31363a3927868d8fcd22489317f44ed912bd9331363ab815f4e71039e947badf0f21e21f2ebe31363af11332ebdfae674cb2e95d9da48dc8e231363a4b923df775f7634a860c0bcb1a71526931363a511b15fe938841459c67289e16bbb8c56575323a696431363a692bf1f78c77d74b95a6881fcc09b27d75333a6d616132303aa97b7449b7b020a3d25d495855ab70e86e11855d75323a726475313a3475323a72696c6c75313a3075353a3130303132656c75313a3375353a3130303033656575323a746b75313a316565";
             var actionIValue = _codec.Decode(ByteUtil.ParseHex(action));
             var ctx = new CommittedActionContext(
                 new Address("0x883dC19cec1ADd1C7fbab1290C8384bb9cb90d83"),
-                TxId.FromHex("12d10837a0e172db8f786a7267f85070eaf16bd570d1c355ab2c956f3dabd2f0"),
+                TxId.FromHex("518f0abf79a4b310d8301915d32e99855c5aaba9e6f4a9e138ed2c83c57b8be8"),
                 new Address("0xbf94E6099243998456D6088E5A2B788ED59cD7C0"),
-                10740995,
+                10748379,
                 7,
                 HashDigest<SHA256>.FromString(
-                    "33fd1680479b46895035e12f98d8e9f98100fd77e3076fd9af84f952655f2572"),
-                1952838142,
+                    "37aa5a71a5e9ce978f3be546749645447954bedaa2a91cf9eab7529dfc0e4d37"),
+                -1492504763,
                 false);
             _actionRenderer.RenderAction(actionIValue,
                 ctx,
                 HashDigest<SHA256>.FromString(
-                    "33fd1680479b46895035e12f98d8e9f98100fd77e3076fd9af84f952655f2572"));
+                    "37aa5a71a5e9ce978f3be546749645447954bedaa2a91cf9eab7529dfc0e4d37"));
         }
     }
 }

@@ -213,7 +213,6 @@ namespace Nekoyume.Blockchain
             equipments ??= new List<Guid>();
             foods ??= new List<Consumable>();
 
-            ActionRenderHandler.Instance.Test();
             var action = new HackAndSlash
             {
                 Costumes = costumes,
@@ -227,10 +226,10 @@ namespace Nekoyume.Blockchain
                 TotalPlayCount = playCount,
                 ApStoneCount = apStoneCount,
             };
-            // action.PayCost(Game.Game.instance.Agent, States.Instance, TableSheets.Instance);
-            // LocalLayerActions.Instance.Register(action.Id, action.PayCost, _agent.BlockIndex);
-            // ProcessAction(action);
-            // _lastBattleActionId = action.Id;
+            action.PayCost(Game.Game.instance.Agent, States.Instance, TableSheets.Instance);
+            LocalLayerActions.Instance.Register(action.Id, action.PayCost, _agent.BlockIndex);
+            ProcessAction(action);
+            _lastBattleActionId = action.Id;
             return _agent.ActionRenderer.EveryRender<HackAndSlash>()
                 .Timeout(ActionTimeout)
                 .SkipWhile(eval => !eval.Action.Id.Equals(action.Id))
@@ -992,20 +991,20 @@ namespace Nekoyume.Blockchain
             // action.PayCost(Game.Game.instance.Agent, States.Instance, TableSheets.Instance);
             // LocalLayerActions.Instance.Register(action.Id, action.PayCost, _agent.BlockIndex);
             // ProcessAction(action);
-            var action2 =
-                "6475373a747970655f69647531343a626174746c655f6172656e61313575363a76616c7565736475333a63686975313a3975323a63736c6575333a65616132303a259d3179bed313db24105c796cc121db49e9ee4e75323a65736c31363a44f2db158af21b4da3db33b358e549c631363a66644b7f60387840a14784494b8c6bda31363a3927868d8fcd22489317f44ed912bd9331363ab815f4e71039e947badf0f21e21f2ebe31363af11332ebdfae674cb2e95d9da48dc8e231363a4b923df775f7634a860c0bcb1a71526931363a511b15fe938841459c67289e16bbb8c56575323a696431363a692bf1f78c77d74b95a6881fcc09b27d75333a6d616132303aa97b7449b7b020a3d25d495855ab70e86e11855d75323a726475313a3475323a72696c6c75313a3075353a3130303132656c75313a3375353a3130303033656575323a746b75313a316565";
-            var action3 = new BattleArena();
-            action3.LoadPlainValue(new Codec().Decode(ByteUtil.ParseHex(action2)));
-            ActionRenderHandler.Instance.Test();
-            _lastBattleActionId = action3.Id;
+            var pv =
+                "6475373a747970655f69647531343a626174746c655f6172656e61313575363a76616c7565736475333a63686975313a3975323a63736c31363a5545014e2a87134fa8ce15dd867f585031363a2e4e676178c0434096ed2a767278eb7e31363ae7adfb797a1fea49a96993f7318330f031363a72f26fa80a32ca4596c574753c97142531363a5b5758bbe4c11f4080f22a87d16f520231363a68d0bcde5912364fa2b76b89109c9cdb6575333a65616132303aade6ebee292e8ccc0c9b04525b35246fe2ce2ad675323a65736c31363a087724126481e9488dae3c00f97a0b1431363a56a224853a08ac4d8a09455d001494af31363aa621c0acf0c9864084520b2f4e5bf8d531363ab58428b4be80f740bc66834996e3690e31363a283121cdf6f05d4aac552140a2168f7631363a57aeb6d2e9a2aa48a57c5a9e9b8d4e8931363a542057dbafbe91459cd28e46760901646575323a696431363a485b626e3634c7489cdc8dbf10a4360b75333a6d616132303a732a63542e63ad6c35c44959272c4094f49f987175323a726475313a3475323a72696c6c75313a3075353a3130303330656c75313a3375353a3130303033656c75313a3475353a3130303239656c75313a3675353a3130303332656c75313a3775353a3130303232656575323a746b75313a316565";
+            action = new BattleArena();
+            action.LoadPlainValue(new Codec().Decode(ByteUtil.ParseHex(pv)));
+            ActionRenderHandler.Instance.Test(pv);
+            _lastBattleActionId = action.Id;
             return _agent.ActionRenderer.EveryRender<BattleArena>()
                 .Timeout(ActionTimeout)
-                .Where(eval => eval.Action.Id.Equals(action3.Id))
+                .Where(eval => eval.Action.Id.Equals(action.Id))
                 .First()
                 .ObserveOnMainThread()
                 .DoOnError(e =>
                 {
-                    if (_lastBattleActionId == action3.Id)
+                    if (_lastBattleActionId == action.Id)
                     {
                         _lastBattleActionId = null;
                     }
